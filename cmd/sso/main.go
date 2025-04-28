@@ -20,11 +20,9 @@ func main() {
 	cfg := config.MustLoad()
 
 	log := setupLogger(cfg.Env)
-
 	log.Info("starting application", slog.Any("config", cfg))
 
 	application := app.New(log, cfg.GRPC.Port, cfg.StoragePath, cfg.TokenTTL)
-
 	go application.GRPCSrv.MustRun()
 
 	//TODO: инициализировать приложение (app)
@@ -34,7 +32,6 @@ func main() {
 	//Graceful shutdown - крутая штука
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT)
-
 	sign := <-stop
 
 	log.Info("stopping application", slog.String("signal", sign.String()))
