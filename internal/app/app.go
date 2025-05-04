@@ -20,7 +20,7 @@ func New(log *slog.Logger, grpcPort int, storagePath string, tokenTTL time.Durat
 
 	authService := auth.New(log, storage, storage, storage, tokenTTL)
 
-	grpcApp := grpcapp.New(log, grpcPort)
+	grpcApp := grpcapp.New(log, authService, grpcPort)
 
 	return &App{
 		GRPCSrv: grpcApp,
